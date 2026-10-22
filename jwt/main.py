@@ -18,6 +18,11 @@ def home():
     return {
         "message": "Welcome home"
     }
+app.get("/user")
+def user():
+    return {
+        "message":"Abhishek dhanotiya"
+    }
 
 
 @app.get("/about")
