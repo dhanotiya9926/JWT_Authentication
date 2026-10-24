@@ -2,16 +2,19 @@ from passlib.context import CryptContext
 from datetime import datetime,timezone,timedelta
 from jose import jwt
 from fastapi import Depends,HTTPException
-from router.auth import my_auth
+from fastapi.security import OAuth2PasswordBearer
+
 from database import get_db
 from sqlalchemy.orm import sessionmaker,Session
 from models import User
 from sqlalchemy import select
 
 
+
 pwd_context=CryptContext(schemes=["bcrypt"],deprecated="auto")
 SECRETKEY="YOUR SECRET KEY"
 ALGORITHM="HS256"
+my_auth=OAuth2PasswordBearer(tokenUrl="/login")
 
 def hash_password(plain_password):
     return pwd_context.hash(plain_password)

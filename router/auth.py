@@ -6,9 +6,10 @@ from fastapi.security import OAuth2PasswordBearer
 from models import User
 from sqlalchemy import select
 from security import hash_password,verify_password,create_access_token
+from security import get_access_token
 
 router=APIRouter()
-my_auth=OAuth2PasswordBearer(tokenUrl="/login")
+
 
 @router.post("/register",response_model=User_response)
 
@@ -57,5 +58,6 @@ def login(user:User_login,db:Session=Depends(get_db)):
         "message":"Token generated successfully",
         "access token":access_token
     }
-# @router.get("/profile")
-# def profile(token:str=Depends(my_auth))
+@router.get("/profile")
+def profile(curr_user:User=Depends(get_access_token)):
+    return curr_user
